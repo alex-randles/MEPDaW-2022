@@ -1,0 +1,169 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rei-deontic: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#> .
+@prefix rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#> .
+@prefix rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdo: <https://change-detection-ontology.adaptcentre.ie/#> .
+@prefix lode: <http://linkedevents.org/ontology/> .
+
+# Notification Policy details
+<http://www.example.com/userActor/1> a <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiEntity.owl#Agent> .
+<http://www.example.com/policyObligation/0>
+  a <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#Obligation> ;
+  rei-deontic:action <https://change-detection-ontology.adaptcentre.ie/#sendNotification> ;
+  rei-deontic:obligedTo <https://change-detection-ontology.adaptcentre.ie/#softwareAgent> ;
+  rei-deontic:startingConstraint <http://www.example.com/notificationConstraint/0> ;
+  rei-policy:actor <http://www.example.com/userActor/1>, <https://change-detection-ontology.adaptcentre.ie/#softwareAgent> .
+
+<http://www.example.com/insertChangeConstraint/0>
+  a <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+  rei-constraint:object "10" ;
+  rei-constraint:predicate <https://change-detection-ontology.adaptcentre.ie/#hasThreshold> ;
+  rei-constraint:subject <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> .
+
+<http://www.example.com/notificationPolicy/0>
+  a rei-policy:Policy ;
+  rei-policy:desc "Notification policy for user 1" ;
+  rei-policy:grants <http://www.example.com/policyObligation/0> ;
+  time:inXSDDateTimeStamp "2022-09-01 00:00:00.0000"^^xsd:dateTimeStamp ;
+  cdo:hasDetectionEnd "2022-09-01 00:00:00.0000"^^xsd:dateTime ;
+  cdo:hasDetectionStart "2022-07-20 22:15:44.952566"^^xsd:dateTime .
+
+<http://www.example.com/updateChangeConstraint/0>
+  a rei-constraint:SimpleConstraint ;
+  rei-constraint:object "0" ;
+  rei-constraint:predicate cdo:hasThreshold ;
+  rei-constraint:subject cdo:UpdateSourceData .
+
+<http://www.example.com/moveChangeConstraint/0>
+  a rei-constraint:SimpleConstraint ;
+  rei-constraint:object "0" ;
+  rei-constraint:predicate cdo:hasThreshold ;
+  rei-constraint:subject cdo:MoveSourceData .
+
+<http://www.example.com/deleteChangeConstraint/0>
+  a rei-constraint:SimpleConstraint ;
+  rei-constraint:object "5" ;
+  rei-constraint:predicate cdo:hasThreshold ;
+  rei-constraint:subject cdo:DeleteSourceData .
+
+<http://www.example.com/notificationConstraint/0>
+  a rei-constraint:And ;
+  rei-constraint:fifth <http://www.example.com/mergeChangeConstraint/0> ;
+  rei-constraint:first <http://www.example.com/insertChangeConstraint/0> ;
+  rei-constraint:fourth <http://www.example.com/updateChangeConstraint/0> ;
+  rei-constraint:second <http://www.example.com/deleteChangeConstraint/0> ;
+  rei-constraint:sixth <http://www.example.com/datatypeChangeConstraint/0> ;
+  rei-constraint:third <http://www.example.com/moveChangeConstraint/0> .
+
+<http://www.example.com/mergeChangeConstraint/0>
+  a rei-constraint:SimpleConstraint ;
+  rei-constraint:object "0" ;
+  rei-constraint:predicate cdo:hasThreshold ;
+  rei-constraint:subject cdo:MergeSourceData .
+
+<http://www.example.com/datatypeChangeConstraint/0>
+  a rei-constraint:SimpleConstraint ;
+  rei-constraint:object "0" ;
+  rei-constraint:predicate cdo:hasThreshold ;
+  rei-constraint:subject cdo:DatatypeSourceData .
+
+
+# Changes detected 
+<http://www.example.com/detectionTime/5>
+  a time:Instant ;
+  time:inXSDDateTimeStamp "2022-07-20 22:15:45.843376"^^xsd:dateTimeStamp .
+
+<http://www.example.com/insertChange/1>
+  a cdo:InsertSourceData ;
+  lode:atTime <http://www.example.com/detectionTime/1> ;
+  cdo:hasReason "Sport: 100" .
+
+<http://www.example.com/detectionTime/4>
+  a time:Instant ;
+  time:inXSDDateTimeStamp "2022-07-20 22:15:45.843376"^^xsd:dateTimeStamp .
+
+<http://www.example.com/insertChange/0>
+  a cdo:InsertSourceData ;
+  lode:atTime <http://www.example.com/detectionTime/0> ;
+  cdo:hasReason "ID: 10" .
+
+<http://www.example.com/insertChange/6>
+  a cdo:InsertSourceData ;
+  lode:atTime <http://www.example.com/detectionTime/6> ;
+  cdo:hasReason "Column Added: Sport" .
+
+<http://www.example.com/detectionTime/3>
+  a time:Instant ;
+  time:inXSDDateTimeStamp "2022-07-20 22:15:45.843376"^^xsd:dateTimeStamp .
+
+<http://www.example.com/changeLog/0>
+  a cdo:ChangeLog ;
+  cdo:hasChange <http://www.example.com/deleteChange/8>, 
+				<http://www.example.com/insertChange/2>,
+				<http://www.example.com/insertChange/6>, 
+				<http://www.example.com/deleteChange/7>, 
+				<http://www.example.com/insertChange/3>, 
+				<http://www.example.com/insertChange/0>, 
+				<http://www.example.com/insertChange/1>, 
+				<http://www.example.com/insertChange/4>, 
+				<http://www.example.com/insertChange/5> ;
+  cdo:hasCurrentVersion <https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0009a-CSV/student.csv> ;
+  cdo:hasPreviousVersion <https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv> .
+
+<http://www.example.com/insertChange/5>
+  a cdo:InsertSourceData ;
+  lode:atTime <http://www.example.com/detectionTime/5> ;
+  cdo:hasReason "Name: Demi Moore" .
+
+<http://www.example.com/detectionTime/2>
+  a time:Instant ;
+  time:inXSDDateTimeStamp "2022-07-20 22:15:45.843376"^^xsd:dateTimeStamp .
+
+<http://www.example.com/detectionTime/8>
+  a time:Instant ;
+  time:inXSDDateTimeStamp "2022-07-20 22:15:45.843376"^^xsd:dateTimeStamp .
+
+<http://www.example.com/detectionTime/7>
+  a time:Instant ;
+  time:inXSDDateTimeStamp "2022-07-20 22:15:45.843376"^^xsd:dateTimeStamp .
+
+<http://www.example.com/insertChange/4>
+  a cdo:InsertSourceData ;
+  lode:atTime <http://www.example.com/detectionTime/4> ;
+  cdo:hasReason "Sport: Null Value" .
+
+<http://www.example.com/detectionTime/1>
+  a time:Instant ;
+  time:inXSDDateTimeStamp "2022-07-20 22:15:45.843376"^^xsd:dateTimeStamp .
+
+<http://www.example.com/deleteChange/8>
+  a cdo:DeleteSourceData ;
+  lode:atTime <http://www.example.com/detectionTime/8> ;
+  cdo:hasReason "Name: Venus" .
+
+<http://www.example.com/detectionTime/0>
+  a time:Instant ;
+  time:inXSDDateTimeStamp "2022-07-20 22:15:45.843376"^^xsd:dateTimeStamp .
+
+<http://www.example.com/insertChange/3>
+  a cdo:InsertSourceData ;
+  lode:atTime <http://www.example.com/detectionTime/3> ;
+  cdo:hasReason "ID: 20" .
+
+<http://www.example.com/detectionTime/6>
+  a time:Instant ;
+  time:inXSDDateTimeStamp "2022-07-20 22:15:45.843376"^^xsd:dateTimeStamp .
+
+<http://www.example.com/deleteChange/7>
+  a cdo:DeleteSourceData ;
+  lode:atTime <http://www.example.com/detectionTime/7> ;
+  cdo:hasReason "ID: 10" .
+
+<http://www.example.com/insertChange/2>
+  a cdo:InsertSourceData ;
+  lode:atTime <http://www.example.com/detectionTime/2> ;
+  cdo:hasReason "Name: Venus Williams" .
+
+
