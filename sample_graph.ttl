@@ -2,6 +2,7 @@
 @prefix rei-deontic: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#> .
 @prefix rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#> .
 @prefix rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#> .
+@prefix dul: <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#> .
 @prefix time: <http://www.w3.org/2006/time#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix cdo: <https://change-detection-ontology.adaptcentre.ie/#> .
@@ -11,7 +12,8 @@
 
 # User contact details
 <http://www.example.com/userActor/1> a <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiEntity.owl#Agent>, 
-									   <http://xmlns.com/foaf/0.1/Person> ;
+									   <http://xmlns.com/foaf/0.1/Person>,
+									   <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Agent> ;
             <http://xmlns.com/foaf/0.1/mbox>
                     "alex.randles@adaptcentre.com" .
 
@@ -107,6 +109,7 @@
 
 <http://www.example.com/changeLog/0>
   a cdo:ChangeLog ;
+  cdo:hasOwner <http://www.example.com/userActor/1>; 
   cdo:hasChange <http://www.example.com/deleteChange/8>, 
 				<http://www.example.com/insertChange/2>,
 				<http://www.example.com/insertChange/6>, 
